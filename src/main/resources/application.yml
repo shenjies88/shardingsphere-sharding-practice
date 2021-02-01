@@ -15,6 +15,10 @@ spring:
           table-strategy:
             inline:
               sharding-column: createtime
-              algorithm-expression: t_order$->{ new Date().parse("yyyy-MM-dd HH:mm:ss", createtime).getMonth()+1 }
+              algorithm-expression: t_order$->{ createtime.getMonth()+1 }
     props:
       sql.show: true
+
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true

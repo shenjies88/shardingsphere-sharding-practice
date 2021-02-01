@@ -17,24 +17,35 @@ import java.util.Map;
 public class ShardingsphereShardingApplication {
 
 	private final JdbcTemplate jdbcTemplate;
+	private final OrderMapper orderMapper;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShardingsphereShardingApplication.class, args);
 	}
 
 	@GetMapping("/get1")
-	public List<Map<String,Object>> get1() {
+	public List<Map<String, Object>> get1() {
 		return jdbcTemplate.queryForList("SELECT * FROM t_order WHERE createtime = '2021-01-01 00:00:00'");
 	}
 
+	@GetMapping("/get1-m")
+	public List<Order> get1M() {
+		return orderMapper.get1(new Date());
+	}
+
 	@GetMapping("/get2")
-	public List<Map<String,Object>> get2() {
+	public List<Map<String, Object>> get2() {
 		return jdbcTemplate.queryForList("SELECT * FROM t_order WHERE createtime = '2021-02-01 00:00:00'");
 	}
 
 	@GetMapping("/insert1")
 	public void insert1() {
 		jdbcTemplate.execute("INSERT INTO t_order (order_id,name,createtime) VALUE (1,'1表插入的','2021-01-01 00:00:00')");
+	}
+
+	@GetMapping("/insert1-m")
+	public void insert1M() {
+		orderMapper.insert1(new Date());
 	}
 
 	@GetMapping("/insert2")
