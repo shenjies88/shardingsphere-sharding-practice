@@ -1,0 +1,20 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: ds0
+      ds0:
+        type: org.apache.commons.dbcp2.BasicDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/ds0?useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: password
+    sharding:
+      tables:
+        t_order:
+          actual-data-nodes: ds0.t_order${1..2}
+          table-strategy:
+            inline:
+              sharding-column: createtime
+              algorithm-expression: t_order$->{ new Date().parse("yyyy-MM-dd HH:mm:ss", createtime).getMonth()+1 }
+    props:
+      sql.show: true
