@@ -11,7 +11,7 @@ spring:
     sharding:
       tables:
         t_order:
-          actual-data-nodes: ds0.t_order${1..2}
+          actual-data-nodes: ds0.t_order$->{ 1..2 }
           table-strategy:
             inline:
               sharding-column: createtime
